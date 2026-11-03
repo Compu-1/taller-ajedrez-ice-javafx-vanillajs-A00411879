@@ -68,7 +68,15 @@ export class PlayerCard {
      *      getPieceGlyph(p, this.capturedColorKey) y unirlas separadas por un espacio " ".
      */
     update(nickname, points, capturedPieces) {
-        // TODO: Implementar la actualización de la tarjeta según la especificación de requerimientos de arriba.
+        this.nameEl.textContent = nickname || this.defaultName;
+
+        const currentPoints = typeof points === "number" ? points : 1200;
+        this.pointsEl.textContent = `${currentPoints} pts`;
+        this.tierBadge.update(calculateTierFromPoints(currentPoints));
+
+        this.capturedEl.textContent = (capturedPieces && capturedPieces.length > 0)
+            ? capturedPieces.map(piece => getPieceGlyph(piece, this.capturedColorKey)).join(" ")
+            : "";
     }
 
     getElement() {

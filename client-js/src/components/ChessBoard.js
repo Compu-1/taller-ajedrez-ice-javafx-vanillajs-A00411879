@@ -80,7 +80,44 @@ export class ChessBoard {
      *        - Insertar el indicador dentro de la casilla.
      */
     render(gameState, selectedSquare, legalMoves = []) {
-        // TODO: Implementar el renderizado del tablero según la especificación de requerimientos de arriba.
+        if (!gameState || !gameState.board) {
+            return;
+        }
+
+        const moves = gameState.moves;
+        const lastMove = moves && moves.length > 0 ? moves[moves.length - 1] : null;
+        const isSquare = (pos, r, c) => pos != null && pos.row === r && pos.col === c;
+
+        for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+                const tile = this.tiles[r][c];
+                const piece = gameState.board[r][c];
+                const hasPiece = piece && piece.type._name !== "PIECEEMPTY";
+
+                tile.className = `tile ${(r + c) % 2 === 0 ? "light" : "dark"}`;
+                tile.replaceChildren();
+
+                if (lastMove && (isSquare(lastMove.fromPos, r, c) || isSquare(lastMove.toPos, r, c))) {
+                    tile.classList.add("last-move");
+                }
+                if (isSquare(selectedSquare, r, c)) {
+                    tile.classList.add("selected");
+                }
+
+                if (hasPiece) {
+                    const pieceEl = document.createElement("span");
+                    pieceEl.className = piece.color._name === "COLORWHITE" ? "piece-white" : "piece-black";
+                    pieceEl.textContent = getPieceGlyph(piece);
+                    tile.appendChild(pieceEl);
+                }
+
+                if (legalMoves.some(move => isSquare(move, r, c))) {
+                    const hint = document.createElement("div");
+                    hint.className = hasPiece ? "capture-ring" : "move-dot";
+                    tile.appendChild(hint);
+                }
+            }
+        }
     }
 
     getElement() {
