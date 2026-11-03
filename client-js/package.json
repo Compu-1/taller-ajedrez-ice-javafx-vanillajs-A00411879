@@ -5,12 +5,13 @@
   "main": "src/app.js",
   "scripts": {
     "start": "npx serve -l 3000 .",
-    "generate-slice": "slice2js ../common/src/main/slice/ChessService.ice --output-dir src/services"
+    "generate-slice": "node scripts/generate-slice.js"
   },
   "dependencies": {
     "ice": "^3.7.110"
   },
   "devDependencies": {
-    "serve": "^14.2.4"
+    "serve": "^14.2.4",
+    "slice2js": "^3.7.110"
   }
 }

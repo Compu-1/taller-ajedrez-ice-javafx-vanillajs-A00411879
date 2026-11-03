@@ -65,5 +65,5 @@ tasks.register('generateSliceJs', Exec) {
     group = 'build'
     description = 'Compila los contratos Slice a JavaScript usando slice2js'
     workingDir = file('client-js')
-    commandLine 'slice2js', '../common/src/main/slice/ChessService.ice', '--output-dir', 'src/services'
+    commandLine 'node', 'scripts/generate-slice.js'
 }
